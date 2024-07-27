@@ -1,1 +1,1 @@
-This is a Weather api which provides temperature,weather,wind and humidity of a city
+This is a Weather API which provides temperature,weather,wind and humidity of a city
