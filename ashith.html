@@ -4,32 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather App</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      text-align: center;
-      padding: 20px;
-    }
-    .weather-card {
-      max-width: 400px;
-      margin: 0 auto;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      text-align: left;
-    }
-    .weather-card h2 {
-      margin-top: 0;
-    }
-    .weather-card p {
-      margin-bottom: 0;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon"  type="image/x-icon"  href="Clouds.png">
 </head>
 <body>
-  <div class="weather-card">
+  <img class="Box" src="Clouds.png" alt="Clouds" >
+  <h1>Weather API</h1>
+  <div class="input-group">
+    <input type="text" id="cityInput" placeholder="Enter city name">
+    <button onclick="fetchWeather()">Get Weather</button>
+  </div>
+
+  <div class="weather-card" id="weatherCard" style="display: none;">
     <h2>Weather in <span id="city"></span></h2>
     <p><strong>Temperature:</strong> <span id="temperature"></span> &deg;C</p>
     <p><strong>Weather:</strong> <span id="weather"></span></p>
@@ -39,7 +25,7 @@
 
   <script>
     // Replace 'YOUR_API_KEY' with your actual API key from OpenWeatherMap
-    const apiKey = 'YOUR_API_KEY';
+    const apiKey = '90fcf65ea5a19d68fd6a3736696de9d8';
     const apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
     // Function to fetch weather data
@@ -60,7 +46,7 @@
       }
     }
 
-    // Update weather card with fetched data
+    // Function to update weather card with fetched data
     function updateWeatherCard(data) {
       if (data) {
         document.getElementById('city').textContent = data.name;
@@ -68,13 +54,28 @@
         document.getElementById('weather').textContent = data.weather[0].description;
         document.getElementById('wind').textContent = data.wind.speed;
         document.getElementById('humidity').textContent = data.main.humidity;
+        document.getElementById('weatherCard').style.display = 'block'; // Show weather card
       } else {
         document.getElementById('city').textContent = 'Unknown';
         document.getElementById('temperature').textContent = 'N/A';
         document.getElementById('weather').textContent = 'N/A';
         document.getElementById('wind').textContent = 'N/A';
         document.getElementById('humidity').textContent = 'N/A';
+        document.getElementById('weatherCard').style.display = 'none'; // Hide weather card
       }
     }
 
-
+    // Function to fetch weather data when button is clicked
+    async function fetchWeather() {
+      const city = document.getElementById('cityInput').value;
+      if (!city) {
+        alert('Please enter a city name');
+        return;
+      }
+      
+      const data = await getWeatherData(city);
+      updateWeatherCard(data);
+    }
+  </script>
+</body>
+</html>
